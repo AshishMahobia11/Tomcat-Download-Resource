@@ -1,0 +1,65 @@
+Step 1: 
+Install Java
+	yum install java-17 -y
+
+Step 2: Install Tomcat
+
+#Download tomcat binary
+        wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.86/bin/apache-tomcat-9.0.86.tar.gz
+#unzip tomcat binary
+        tar -zvxf apache-tomcat-9.0.86.tar.gz
+
+Step 3:
+Add Execute Permission to startup.sh & shutdown.sh 
+
+cd apache-tomcat-9.0.86
+
+cd bin
+
+chmod +x startup.sh
+chmod +x shutdown.sh
+
+Step 4: 
+To start Tomcat
+
+./startup.sh
+
+Step 5:
+Change Settings to Manage Tomcat
+
+cd apache-tomcat-9.0.86
+
+find -name context.xml
+
+./conf/context.xml
+./webapps/examples/META-INF/context.xml
+./webapps/host-manager/META-INF/context.xml
+./webapps/manager/META-INF/context.xml
+
+#comment value tag sections in below all files
+vi ./webapps/examples/META-INF/context.xml
+vi ./webapps/host-manager/META-INF/context.xml
+vi ./webapps/manager/META-INF/context.xml
+
+Step 6: Update user information in tomcat-users.xml
+
+cd conf
+
+vi tomcat-users.xml
+
+#Add below lines between <tomcat-users> tag
+
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+<role rolename="manager-status"/>   
+<user username="admin" password="admin" roles="manager-gui,manager-script,manager-jmx,manager-status"/>
+<user username="deployer" password="deployer" roles="manager-script"/>
+<user username="tomcat" password="s3cret" roles="manager-gui"/>
+
+Step 7: 
+
+http://server_ip:8080/
+
+You should see Tomcat welcome page.
+
